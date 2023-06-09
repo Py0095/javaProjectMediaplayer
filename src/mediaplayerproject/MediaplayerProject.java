@@ -54,8 +54,6 @@ public class MediaplayerProject extends Application {
     FileChooser chooser;
     boolean playerState = false;
     boolean muteState = false;
-    
-    
 
     /**
      * @param args the command line arguments
@@ -63,9 +61,9 @@ public class MediaplayerProject extends Application {
     //Kreyasyon metod yo
     void CreateWindow() {
         window.setTitle("vlc Media Player");
-        window.getIcons().add( new Image(getClass().getResourceAsStream("vlc1.png")));
+        window.getIcons().add(new Image(getClass().getResourceAsStream("vlc1.png")));
 //        root.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), Insets.EMPTY)));
-        Scene scene = new Scene(root, 300, 300); 
+        Scene scene = new Scene(root, 300, 300);
 
         root.setStyle("-fx-background-color: black");
 
@@ -99,7 +97,7 @@ public class MediaplayerProject extends Application {
         MenuItem openFile = new MenuItem("Open File");
         openFile.setOnAction(e -> openFile());
         MenuItem openFiles = new MenuItem("Open Mutiple Files");
-        openFiles.setOnAction(e->openFiles());
+        openFiles.setOnAction(e -> openFiles());
         MenuItem openFolder = new MenuItem("Open Folder");
         MenuItem quit = new MenuItem("Quit");
         quit.setOnAction(e -> exitMedia());
@@ -183,7 +181,7 @@ public class MediaplayerProject extends Application {
                 // passons le mediaPlayer au mediaView
                 view = new MediaView(player);
                 // ajouter le MediaView au centre du BorderPane
-                
+
                 root.setCenter(view);
             } catch (MalformedURLException ex) {
                 Alert alert = new Alert(AlertType.ERROR);
@@ -194,20 +192,15 @@ public class MediaplayerProject extends Application {
         }
     }
 
-    private void openFiles(){
-    Iterator<String> itr;
-    ArrayList<String> listFiles = new ArrayList<String>();
-    itr = listFiles.iterator();
-     System.out.println(itr);
-    
+    private void openFiles() {
+        Iterator<String> itr;
+        ArrayList<String> listFiles = new ArrayList<String>();
+        itr = listFiles.iterator();
+        System.out.println(itr);
+
 //    play(itr.next());
-    
-    
-    
-    
     }
-    
-    
+
     private void exitMedia() {
         // System.exit(0);
         window.close();
@@ -240,7 +233,7 @@ public class MediaplayerProject extends Application {
                 if (player != null) {
                     playerState = !playerState;
                     player.play();
-                     System.out.println("you've been clicked in play btn ");
+                    System.out.println("you've been clicked in play btn ");
                 }
 
             } else {
@@ -288,7 +281,7 @@ public class MediaplayerProject extends Application {
                 if (player != null) {
                     muteState = !muteState;
                     player.setMute(true);
-                     System.out.println("you've been clicked in mute btn ");
+                    System.out.println("you've been clicked in mute btn ");
                 }
             } else {
                 btnMute_unMute.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("audio.png"))));
@@ -334,206 +327,3 @@ public class MediaplayerProject extends Application {
     }
 
 }
-
-//    void buttonMediaPlayer() {
-//
-//        // bouton 
-//        Button btnPlay = new Button("Play");
-//        Image image_Play = new Image(getClass().getResourceAsStream("play.png"));
-//        btnPlay.setGraphic(new ImageView(image_Play));
-//
-//        Button btnStop = new Button("Stop");
-//        Image image_Stop = new Image(getClass().getResourceAsStream("stop.png"));
-//        btnStop.setGraphic(new ImageView(image_Stop));
-//
-//        Button btnPrevious = new Button("Previous");
-//        Image image_Previous = new Image(getClass().getResourceAsStream("previous.png"));
-//        btnPrevious.setGraphic(new ImageView(image_Previous));
-//
-//        Button btnNext = new Button("Next");
-//        Image image_Next = new Image(getClass().getResourceAsStream("next.png"));
-//        btnNext.setGraphic(new ImageView(image_Next));
-//
-//        Button btnPause = new Button("Pause");
-//        Image image_Pause = new Image(getClass().getResourceAsStream("pause.png"));
-//        btnPause.setGraphic(new ImageView(image_Pause));
-//
-//        Button btnfllScreen = new Button();
-//        Image image_fllScreen = new Image(getClass().getResourceAsStream("full-screen.png"));
-//        btnfllScreen.setGraphic(new ImageView(image_fllScreen));
-//
-//        Button btnnormalScreen = new Button();
-//        Image imagenmScreen = new Image(getClass().getResourceAsStream("normal-screen.png"));
-//        btnnormalScreen.setGraphic(new ImageView(imagenmScreen));
-//        btnnormalScreen.setOnAction(e -> fullScreen());
-//
-//        Button btnAudio = new Button();
-//        Image image_btnAudio = new Image(getClass().getResourceAsStream("audio.png"));
-//        btnAudio.setGraphic(new ImageView(image_btnAudio));
-//
-//        Button btnNoAudio = new Button();
-//        Image image_noAudio = new Image(getClass().getResourceAsStream("no-audio.png"));
-//        btnNoAudio.setGraphic(new ImageView(image_noAudio));
-//
-//        //        ajouter yon hBox 
-//        HBox hbMere = new HBox(60);
-//        HBox hb = new HBox();
-//        HBox hb0 = new HBox(5);
-//        HBox hb1 = new HBox(5);
-//
-//        hb.getChildren().addAll(btnnormalScreen);
-//        hb1.getChildren().addAll(btnAudio);
-////        hb1.setPadding(new Insets(0,0,0,300));
-//
-////ajoute btn yo nan HBox mwen an
-//        //        hb.getChildren().addAll(btnStop, btnPrevious, btnStop, btnNext);
-//        hb0.getChildren().addAll(btnPlay, btnPrevious, btnStop, btnNext);
-//
-//        hbMere.getChildren().addAll(hb, hb0, hb1);
-//        hbMere.setPadding(new Insets(10, 0, 10, 0));
-//        hbMere.setAlignment(Pos.CENTER);
-//
-//        root.setBottom(hbMere);
-//
-//    }
-//
-//    private void quitterMedia() {
-//     // System.exit(0);
-//      stage.close();
-//    }
-//
-//    private void dullScreen() {
-//        window.setMaximized(true);
-//    }
-//
-//##############################################################################
-//   
-//    
-//    void creerMenu(){
-//        MenuBar menuBar=new MenuBar();
-//        Menu fichier=new Menu("Fichier");
-//        Menu edit=new Menu();
-//        Label lbEdit=new Label("Edition");
-//        edit.setGraphic(lbEdit);
-//        lbEdit.setOnMouseClicked(e->callWindow());
-//        Menu view=new Menu("Affichage");
-//        Menu apropos=new Menu("Apropos");
-//        
-//        // sous-menus
-//        MenuItem ouvrir=new MenuItem("Ouvrir media");
-//        ouvrir.setOnAction(e->ouvrirMedia());
-//        MenuItem quitter=new MenuItem("Quitter");
-//        quitter.setOnAction(e->quitterMedia());
-//        MenuItem maximiser=new MenuItem("Maximiser");
-//        maximiser.setOnAction(e->maximiser());
-//        MenuItem pleinEcran=new MenuItem("Plein Ecran");
-//        pleinEcran.setOnAction(e->pleinEcran());
-//      
-//        // ajouter les MenuItem dans les menus
-//        fichier.getItems().addAll(ouvrir,quitter);
-//        view.getItems().addAll(maximiser,pleinEcran);
-//        // ajouter les Menus dans la barre de menu
-//        menuBar.getMenus().addAll(fichier,edit,view,apropos);
-//        // ajouter le menuBar dans le top du BorderPane
-//        pane.setTop(menuBar);
-//        
-//    }
-//    
-//    void showFenetre(){
-//        stage.setMaximized(true);
-//        stage.show();
-//    }
-//    
-//    void boutonMedia(){
-//        HBox hb=new HBox(10);
-//        Button btStop=new Button("Stop");
-//        btStop.setOnAction(e->{
-//           // Alert a=new Alert(AlertType.INFORMATION,btStop.getText());
-//            //a.setContentText(btStop.getText());
-//           // a.show();
-//           if(btStop.getText().equals("Stop")){
-//              btStop.setText("Play"); 
-//              Tooltip t=new Tooltip();
-//              t.setText("Info bulle");
-//              btStop.setTooltip(t);
-//               if(player!=null){
-//                player.play();
-//            }
-//           
-//           }else{
-//               btStop.setText("Stop");
-//                if(player!=null){
-//                player.stop();
-//            }
-//           }
-//        });
-//        Button btPause=new Button("Pause");
-//         btPause.setOnAction(e->{
-//            if(player!=null){
-//                player.pause();
-//            }
-//        });
-//        Button btMute=new Button("Mute");
-//        btMute.setOnAction(e->{
-//            if(player!=null){
-//                player.setMute(true);
-//            }
-//        });
-//        hb.getChildren().addAll(btStop,btPause,btMute);
-//         hb.setPadding(new Insets(10,10,15,10));
-//        pane.setBottom(hb);
-//        
-//        
-//    }
-//    private void ouvrirMedia() {
-//     chooser=new FileChooser();
-//     chooser.setTitle("Choisir une musique ou une video");
-//     chooser.getExtensionFilters().addAll(new ExtensionFilter("audio/video","*.mp3","*.mp4","*.flv"));
-//     File fileselect=chooser.showOpenDialog(stage);
-//     if(fileselect!=null){
-//         try {
-//             media=new Media(fileselect.toURI().toURL().toString());
-//            // passons le media au mediaplayer
-//            player=new MediaPlayer(media);
-//            // jouer le media
-//            player.setAutoPlay(true);
-//            player.play();
-//            // passons le mediaPlayer au mediaView
-//            view=new MediaView(player);
-//            // ajouter le MediaView au centre du BorderPane
-//            pane.setCenter(view);
-//         } catch (MalformedURLException ex) {
-//            Alert alert=new Alert(AlertType.ERROR);
-//            alert.setTitle("Erreur ");
-//            alert.setContentText(ex.getMessage());
-//            alert.show();
-//         }
-//     }
-//    }
-//
-//    private void quitterMedia() {
-//     // System.exit(0);
-//      stage.close();
-//    }
-//
-//    private void maximiser() {
-//        stage.setMaximized(true);
-//    }
-//
-//    private void pleinEcran() {
-//      stage.setFullScreen(true);
-//      stage.setFullScreenExitHint("Pressez CTRL+X pour sortir");
-//      stage.setFullScreenExitKeyCombination(KeyCombination.keyCombination("CTRL+X"));
-//    }
-////
-////    private void callWindow() {
-////        FenetreOnglet ong=new FenetreOnglet();
-////        ong.initModality(Modality.WINDOW_MODAL);
-////        ong.initOwner(stage);
-////        //ong.initStyle(StageStyle.UTILITY);
-////        ong.showAndWait();
-////    }
-//    
-//    
-//    
-//}
