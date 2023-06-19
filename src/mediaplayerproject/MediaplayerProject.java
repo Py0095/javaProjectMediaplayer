@@ -7,11 +7,9 @@ package mediaplayerproject;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import static java.util.Collections.list;
 import java.util.List;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -67,12 +65,12 @@ public class MediaplayerProject extends Application {
     ArrayList<String> list = new ArrayList<>();
     Button btnPlay_Pause = new Button();
     HBox wrp_btnPlay_Pause = new HBox();
-    int cpt = 0, id;
+    int cpt = 1, id;
     String name, path;
     File fileselect1;
     FileChooser file_chooser;
-    ObservableList<PlayerModel> list1 = FXCollections.observableArrayList();
-   boolean table_vide =true;
+    boolean table_vide =true;
+    private ObservableList<PlayerModel> fileEntries;
 
 
     /**
@@ -191,7 +189,7 @@ public class MediaplayerProject extends Application {
         //        end 
 
 //         Add media sub menu
-        MenuItem tbvMusicVideo = new MenuItem("Add music/video");
+        MenuItem tbvMusicVideo = new MenuItem("Create a Table");
         MenuItem tbvMusicsVideos = new MenuItem("add musics/videos");
         //   add sub menu video in menu video
         addMedia.getItems().addAll(tbvMusicVideo, tbvMusicsVideos);
@@ -273,7 +271,7 @@ public class MediaplayerProject extends Application {
     ;
 
     private void openFiles() {
-        FileChooser file_chooser = new FileChooser();
+        file_chooser = new FileChooser();
         file_chooser.getExtensionFilters().add(new ExtensionFilter("Audio/Video", "*.mp3", "*.mp4", "*.flv", "*.3gp", "*.wma", "*.wav", "*.ogg", "*.wmv", "v.avg", "*.avi"));
         List<File> select = file_chooser.showOpenMultipleDialog(null);
 
@@ -423,22 +421,27 @@ public class MediaplayerProject extends Application {
         
         //creation des colonnes ou entete pour ajouter les player 
         TableColumn<PlayerModel,String> colonne_1=new TableColumn<>("Id");
-        TableColumn<PlayerModel,String> colonne_2=new TableColumn<>("Nom");
+        colonne_1.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        
+        TableColumn<PlayerModel,String> colonne_2=new TableColumn<>("Name");
+        colonne_2.setCellValueFactory(new PropertyValueFactory<>("fileName"));
+
+        
         TableColumn<PlayerModel,String> colonne_3=new TableColumn<>("Path");
+        colonne_3.setCellValueFactory(new PropertyValueFactory<>("absolutePath"));
+
     
         //ajout de la valeur dans les colonnes 
         //colonne 1 pour id
         
-    colonne_1.setCellValueFactory(new PropertyValueFactory<>("id"));
     //colonne 2 pour le nom du media
-    colonne_2.setCellValueFactory(new PropertyValueFactory<>("nom"));
     //colonne 3 pour le path
-    colonne_3.setCellValueFactory(new PropertyValueFactory<>("path"));
     
     // ajout des colonnes dans la table view
-    table_view.getColumns().addAll(colonne_1,colonne_2,colonne_3);
+      table_view.getColumns().addAll(colonne_1,colonne_2,colonne_3);
     // redimensionner la table vue en fonction de nombre de colonne necesaire
-    table_view.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+      table_view.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     
     // ajout de la liste a gauche du border pane
     
@@ -451,29 +454,47 @@ public class MediaplayerProject extends Application {
     void openMusicMethode(){
         file_chooser=new FileChooser();
         file_chooser.getExtensionFilters().add(new ExtensionFilter("Audio/Video", "*.mp3", "*.mp4", "*.flv", "*.3gp", "*.wma", "*.wav", "*.ogg", "*.wmv", "v.avg", "*.avi"));
-        List<File> select =  file_chooser.showOpenMultipleDialog(null);
-        if(select!=null){
-            table_view.getItems().addAll(new PlayerModel(1,"nom","path"));
-            list.add(id+ " ; "+"nom"+" ; "+"nom"+" ; \n");
-               System.out.println("test");
-               select.stream().map(f -> {
-                   cpt++;
-                return f;
-            }).map(f -> {
-                id=cpt;
-                return f;
-            }).map(f -> {
-                name=f.getName();
-                return f;
-            }).map(f -> {
-                path=f.getPath();
-                return f;
-            }).map(_item -> {
-                table_view.getItems().add(new PlayerModel(id,name,path));
-                return _item;
-            }).forEachOrdered(_item -> {
-                list.add(id+ " ; "+name+" ; "+path+" ; \n");
-            });
+        List<File> selectFile =  file_chooser.showOpenMultipleDialog(null);
+        if(selectFile!=null){
+//            table_view.getItems().addAll(new PlayerModel(1,"nom","path"));
+//            list.add(id+ " ; "+"nom"+" ; "+"nom"+" ; \n");
+//            System.out.println("test");
+            
+//            int index = 0;
+    
+            fileEntries =FXCollections.observableArrayList();
+            for(File f:selectFile){
+                id = cpt;
+                name = f.getName();
+                path = f.getAbsolutePath();
+                System.out.println("id :"+id +"\n\tname :"+name+"\n"+"path: "+path);
+                fileEntries.addAll(new PlayerModel(id,name,path));
+                cpt++;
+            }
+             table_view.setItems(fileEntries);
+
+//            ObservableList<PlayerModel> items = (ObservableList<PlayerModel>) select.stream().map(f -> {
+//                return table_view.getItems().addAll(new PlayerModel(index, f.getName(), f.getPath()));
+
+                        
+//            });
+            
+//            .map(f -> {
+//                id=cpt;
+//                return f;
+//            }).map(f -> {
+//                name=f.getName();
+//                return f;
+//            }).map(f -> {
+//                path=f.getPath();
+//                return f;
+//            }).map(_item -> {
+//                return _item;
+//            }).forEachOrdered(_item -> {
+//                list.add(id+ " ; "+name+" ; "+path+" ; \n");
+//                table_view.getItems().add(new PlayerModel(id,name,path));
+//
+//            });
         }
     }
 }

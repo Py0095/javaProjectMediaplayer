@@ -9,37 +9,41 @@ package mediaplayerproject;
  * @author Py0095
  */
 class PlayerModel {
-    private int id;
-    private String nom;
-    private String Absolutepath;
-        public PlayerModel(int id, String nom, String Absolutepath) {
-        this.id = id;
-        this.nom = nom;
-        this.Absolutepath = Absolutepath;
+//    private static int counter = 0; // Pour l'ID qui s'incrémente
+    public int id;
+    public String fileName;
+    public String absolutePath;
+    
+   
+        public PlayerModel(int id ,String fileName, String absolutePath) {
+//        this.id = counter++;
+        this.id = id; 
+        this.fileName = fileName;
+        this.absolutePath = absolutePath;
     }
 
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
+    
+     public void setId(int id) {
         this.id = id;
     }
-
+    
     public String getNom() {
-        return nom;
+        return fileName;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setNom(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getAbsolutepath() {
-        return Absolutepath;
+        return absolutePath;
     }
 
-    public void Absolutepath(String Absolutepath) {
-        this.Absolutepath = Absolutepath;
+    public void Absolutepath(String absolutePath) {
+        this.absolutePath = absolutePath;
     }
 
     
