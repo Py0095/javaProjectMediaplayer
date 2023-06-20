@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -61,7 +62,7 @@ public class MediaplayerProject extends Application {
     boolean muteState = false;
     Slider time = new Slider();
     Slider vol = new Slider();
-    TableView<PlayerModel> table_view = new TableView<>();
+    TableView<PlayerModel> tableView = new TableView<>();
     ArrayList<String> list = new ArrayList<>();
     Button btnPlay_Pause = new Button();
     HBox wrp_btnPlay_Pause = new HBox();
@@ -69,8 +70,15 @@ public class MediaplayerProject extends Application {
     String name, path;
     File fileselect1;
     FileChooser file_chooser;
-    boolean table_vide =true;
+    boolean table_vide = true;
     private ObservableList<PlayerModel> fileEntries;
+    
+    
+    SimpleBooleanProperty isPlaying = new SimpleBooleanProperty(false);
+    Button playButton;
+    Button pauseButton;
+    Button stopButton;
+    Button MuteButton;
 
 
     /**
@@ -189,20 +197,16 @@ public class MediaplayerProject extends Application {
         //        end 
 
 //         Add media sub menu
-        MenuItem tbvMusicVideo = new MenuItem("Create a Table");
+        MenuItem tbvMusicVideo = new MenuItem("OpenFiles");
         MenuItem tbvMusicsVideos = new MenuItem("add musics/videos");
         //   add sub menu video in menu video
         addMedia.getItems().addAll(tbvMusicVideo, tbvMusicsVideos);
         tbvMusicVideo.setOnAction(e -> {
-            creationTableView();
-//        FileChooser chooser1 = new FileChooser();
-//        chooser1.setTitle("ChOOSE A MUSIC OR A VIDEO");
-//        chooser1.getExtensionFilters().addAll(new ExtensionFilter("Audio/Video","*.mp3","*.mp4","*.flv","*.3gp","*.wma","*.wav","*.ogg","*.wmv","v.avg","*.avi"));
+            openMusicMethode();
         });
         //        end 
-        
-        tbvMusicsVideos.setOnAction(e->{
-            openMusicMethode();
+
+        tbvMusicsVideos.setOnAction(e -> {
         });
 
         //ajouter tout menu yo nan menu bar la 
@@ -411,91 +415,48 @@ public class MediaplayerProject extends Application {
     }
 
     public static void main(String[] args) {
-        // TODO code application logic 
-        //  System.out.println("Hello");
         launch(args);
     }
-    
-     //creation d'une table qui contiendra les media
-    public void creationTableView(){
-        
-        //creation des colonnes ou entete pour ajouter les player 
-        TableColumn<PlayerModel,String> colonne_1=new TableColumn<>("Id");
-        colonne_1.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        
-        TableColumn<PlayerModel,String> colonne_2=new TableColumn<>("Name");
+    //creation d'une table qui contiendra les media
+    public void creationTableView(ObservableList<PlayerModel> mediaList) {
+        tableView = new TableView<>();
+
+        //creation des colonnes ou entete pour ajouter les player 
+        TableColumn<PlayerModel, String> colonne_1 = new TableColumn<>("Id");
+        colonne_1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn<PlayerModel, String> colonne_2 = new TableColumn<>("Name");
         colonne_2.setCellValueFactory(new PropertyValueFactory<>("fileName"));
 
-        
-        TableColumn<PlayerModel,String> colonne_3=new TableColumn<>("Path");
-        colonne_3.setCellValueFactory(new PropertyValueFactory<>("absolutePath"));
+        tableView.setItems(mediaList);
 
-    
-        //ajout de la valeur dans les colonnes 
-        //colonne 1 pour id
-        
-    //colonne 2 pour le nom du media
-    //colonne 3 pour le path
-    
-    // ajout des colonnes dans la table view
-      table_view.getColumns().addAll(colonne_1,colonne_2,colonne_3);
-    // redimensionner la table vue en fonction de nombre de colonne necesaire
-      table_view.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-    
-    // ajout de la liste a gauche du border pane
-    
-    if(table_vide){
-    root.setLeft(table_view);
-    table_vide=false;
-    table_view.setVisible(true);
-     }  
-}   
-    void openMusicMethode(){
-        file_chooser=new FileChooser();
-        file_chooser.getExtensionFilters().add(new ExtensionFilter("Audio/Video", "*.mp3", "*.mp4", "*.flv", "*.3gp", "*.wma", "*.wav", "*.ogg", "*.wmv", "v.avg", "*.avi"));
-        List<File> selectFile =  file_chooser.showOpenMultipleDialog(null);
-        if(selectFile!=null){
-//            table_view.getItems().addAll(new PlayerModel(1,"nom","path"));
-//            list.add(id+ " ; "+"nom"+" ; "+"nom"+" ; \n");
-//            System.out.println("test");
-            
-//            int index = 0;
-    
-            fileEntries =FXCollections.observableArrayList();
-            for(File f:selectFile){
-                id = cpt;
-                name = f.getName();
-                path = f.getAbsolutePath();
-                System.out.println("id :"+id +"\n\tname :"+name+"\n"+"path: "+path);
-                fileEntries.addAll(new PlayerModel(id,name,path));
-                cpt++;
-            }
-             table_view.setItems(fileEntries);
+        tableView.getColumns().addAll(colonne_1, colonne_2);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tableView.setOnMouseClicked(e -> tableEvent());
 
-//            ObservableList<PlayerModel> items = (ObservableList<PlayerModel>) select.stream().map(f -> {
-//                return table_view.getItems().addAll(new PlayerModel(index, f.getName(), f.getPath()));
+        root.setLeft(tableView);
+    }
 
-                        
-//            });
-            
-//            .map(f -> {
-//                id=cpt;
-//                return f;
-//            }).map(f -> {
-//                name=f.getName();
-//                return f;
-//            }).map(f -> {
-//                path=f.getPath();
-//                return f;
-//            }).map(_item -> {
-//                return _item;
-//            }).forEachOrdered(_item -> {
-//                list.add(id+ " ; "+name+" ; "+path+" ; \n");
-//                table_view.getItems().add(new PlayerModel(id,name,path));
-//
-//            });
+    void openMusicMethode() {
+        ObservableList<PlayerModel> mediaList = FXCollections.observableArrayList();
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Audio/Video", "*.mp3", "*.mp4", "*.flv", "*.3gp", "*.wma", "*.wav", "*.ogg", "*.wmv", "v.avg", "*.avi"));
+        List<File> listFiles = fileChooser.showOpenMultipleDialog(null);
+
+        if (listFiles != null && !listFiles.isEmpty()) {
+            listFiles.forEach(file -> {
+                mediaList.add(new PlayerModel(listFiles.indexOf(file) + 1, file.getName()));
+            });
+            creationTableView(mediaList);
         }
     }
-}
 
+    private void tableEvent() {
+        PlayerModel model = tableView.getSelectionModel().getSelectedItem();
+        System.out.println(model.fileName);
+    }
+    
+   
+    
+}
