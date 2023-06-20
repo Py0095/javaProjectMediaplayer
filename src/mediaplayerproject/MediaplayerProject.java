@@ -73,12 +73,11 @@ public class MediaplayerProject extends Application {
     boolean table_vide = true;
     private ObservableList<PlayerModel> fileEntries;
     
+    Button btn_Previous;
+    Button btn_stop;
+    Button btnMute_unMute;
+    Button btn_next;
     
-    SimpleBooleanProperty isPlaying = new SimpleBooleanProperty(false);
-    Button playButton;
-    Button pauseButton;
-    Button stopButton;
-    Button MuteButton;
 
 
     /**
@@ -221,7 +220,8 @@ public class MediaplayerProject extends Application {
         chooser.getExtensionFilters().addAll(new ExtensionFilter("Audio/Video", "*.mp3", "*.mp4", "*.flv", "*.3gp", "*.wma", "*.wav", "*.ogg", "*.wmv", "*.avg", "*.avi"));
         File fileselect = chooser.showOpenDialog(window);
         if (fileselect != null) {
-            try {
+           
+        } try {
                 media = new Media(fileselect.toURI().toURL().toString());
                 // passons le media au mediaplayer
                 player = new MediaPlayer(media);
@@ -263,7 +263,6 @@ public class MediaplayerProject extends Application {
                 alert.setContentText(ex.getMessage());
                 alert.show();
             }
-        }
     }
 
     protected void updatesValues() {
@@ -331,7 +330,7 @@ public class MediaplayerProject extends Application {
                 }
             }
         });
-        Button btn_Previous = new Button();
+        btn_Previous = new Button();
         btn_Previous.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("previous.png"))));
         btn_Previous.setOnAction(e -> {
             if (player != null) {
@@ -339,7 +338,7 @@ public class MediaplayerProject extends Application {
             }
         });
 
-        Button btn_stop = new Button();
+        btn_stop = new Button();
         btn_stop.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("stop.png"))));
         btn_stop.setOnAction(e -> {
             if (player != null) {
@@ -350,7 +349,7 @@ public class MediaplayerProject extends Application {
             }
         });
 
-        Button btn_next = new Button();
+        btn_next = new Button();
         btn_next.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("next.png"))));
         btn_next.setOnAction(e -> {
             if (player != null) {
@@ -358,7 +357,7 @@ public class MediaplayerProject extends Application {
             }
         });
 
-        Button btnMute_unMute = new Button();
+        btnMute_unMute = new Button();
         btnMute_unMute.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("audio.png"))));
         btnMute_unMute.setOnAction(e -> {
             if (muteState == false) {
@@ -455,6 +454,8 @@ public class MediaplayerProject extends Application {
     private void tableEvent() {
         PlayerModel model = tableView.getSelectionModel().getSelectedItem();
         System.out.println(model.fileName);
+        
+        
     }
     
    
